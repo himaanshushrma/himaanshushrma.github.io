@@ -899,17 +899,20 @@ const BUF = offc(1, 1), MASK = [];
 const STAGE_EL = document.getElementById('stage');
 const fitCanvas = () => {
   const r = CV.parentElement.getBoundingClientRect(), dpr = Math.min(1.5, devicePixelRatio || 1), ph = r.height * dpr;
+  if (!(r.width >= 2 && r.height >= 2)) return;
   SCALE = Math.max(1, Math.round(ph / 300)); H = Math.ceil(ph / SCALE); W = Math.ceil(r.width * dpr / SCALE);
   CV.width = W * SCALE; CV.height = H * SCALE; CV.style.width = (W * SCALE / dpr) + 'px'; CV.style.height = (H * SCALE / dpr) + 'px';
   BUF.width = W * SCALE; BUF.height = H * SCALE;
   const cell = 3, mw = Math.ceil(W / cell), mh = Math.ceil(H / cell);
   MASK.length = 0; for (let l = 0; l <= 16; l++) { const k = offc(mw, mh), x = k.getContext('2d'), d = x.createImageData(mw, mh);
     for (let y = 0; y < mh; y++) for (let X = 0; X < mw; X++) if (bay(X, y) < l / 16) d.data[(y * mw + X) * 4 + 3] = 255; x.putImageData(d, 0, 0); MASK.push(k); }
-  RS = 1; SC.forEach(s => s.build());
+  RS = 1; SC.forEach(s => s.build()); built = true;
 };
+let built = false;
 const TOTAL = SC.reduce((a, s) => a + s.dur, 0), FADE = 0.9;
 let lastName = '';
 const renderAt = time => {
+  if (!built) return;
   let tt = ((time % TOTAL) + TOTAL) % TOTAL, i = 0; while (tt >= SC[i].dur) { tt -= SC[i].dur; i++; }
   MAIN.setTransform(SCALE, 0, 0, SCALE, 0, 0); MAIN.imageSmoothingEnabled = false; RS = SCALE;
   const s = SC[i]; c = MAIN; s.draw(tt, tt / s.dur);
