@@ -187,7 +187,7 @@ footer{padding:30px 16px 44px;text-align:center;color:var(--muted);font-size:16p
     <div class="player">
       <figure class="win portrait" style="margin:0"><img src="photos/portrait.jpg" width="640" height="800" alt="Portrait of Himanshu Sharma smiling, in a black beanie and green striped jersey"><span>HIMANSHU</span></figure>
       <div>
-        <p class="bio">I build autonomous drone swarms end to end: an <b>LLM mission agent on the Claude API</b> that turns plain-English orders into missions, RRT* path planning, shared mapping, battery-aware planning and <b>YOLOv8 vision</b> trained on synthetic data. I also ship computer vision tools for traffic and infrastructure. Now on an M.Tech in Computer Science, after a B.Tech from UIET, MDU Rohtak, and I've taught Python as a faculty member. Looking for a <b>UAV, robotics or AI-agents internship</b> to take this work from simulation to real platforms.</p>
+        <p class="bio">I build autonomous drone swarms end to end: an <b>RRT* path planning</b>, shared mapping, fault-tolerant swarm coordination, battery-aware missions, <b>YOLO vision</b> trained on synthetic data and an <b>LLM mission agent</b> that commands the swarm in plain English. I also ship computer vision tools for traffic and infrastructure. Now on an M.Tech in Computer Science, after a B.Tech from UIET, MDU Rohtak, and I taught Python as a faculty member at Samyak Computers. Looking for a <b>UAV, robotics or AI-agents internship</b> to take this work from simulation to real platforms.</p>
         <div class="ctas" style="margin:0 0 14px"><a class="btn" href="resume/Himanshu_Sharma_Resume.pdf" target="_blank" rel="noopener">⬇ Download resume (PDF)</a></div>
         <dl class="stats">
           <dt>Class</dt><dd>Autonomous UAV swarms · AI agents · Computer vision</dd>
@@ -195,6 +195,7 @@ footer{padding:30px 16px 44px;text-align:center;color:var(--muted);font-size:16p
           <dt>Origin</dt><dd>B.Tech CSE, UIET, MDU Rohtak (2022–26)</dd>
           <dt>Base</dt><dd>Faridabad, India</dd>
           <dt>Special</dt><dd>NCC B &amp; C Certificates, Alpha Grade A</dd>
+          <dt>Camp</dt><dd>Basic Leadership Camp, Malout (2025)</dd>
         </dl>
       </div>
     </div>
@@ -307,14 +308,14 @@ const QUESTS = [
    tech:['Claude API','AI agents','Python','C#','Unity 6','YOLOv8','ROS 2'], link:'https://github.com/himaanshushrma/OSPREY'},
   {name:'AI CRACK INSPECTOR', ver:'New quest', isNew:true, tag:'Infrastructure crack segmentation', icon:ICON.crack,
    desc:'Upload a photo of a road, wall or runway and the AI outlines every crack, counts them and scores its confidence.',
-   loot:['<b>Fine-tuned YOLO11 segmentation</b> on ~4,000 labelled crack images','<b>0.78 mAP@50</b> and <b>0.80 precision</b> on the validation set','<b>Streamlit web app</b> serving the model: crack outlines, count and confidence'],
+   loot:['<b>Fine-tuned YOLO11n-seg</b> on the Crack-Seg dataset (~3,700 training images, 30 epochs)','<b>0.78 box mAP@50</b>, <b>0.80 precision</b> and 0.65 mask mAP@50 on validation','<b>Streamlit web app</b> serving the model: crack outlines, count and confidence'],
    next:[],
    tech:['Python','YOLO11-seg','OpenCV','Streamlit'], link:'https://github.com/himaanshushrma/CRACK_DETECTION'},
-  {name:'ORBITAL', ver:'v1.0 · Cleared', tag:'Vision-based detection & tracking pipeline', icon:ICON.car,
-   desc:'Watches a road through a camera and turns the traffic into numbers: every vehicle is detected, tracked across frames and counted in real time.',
-   loot:['<b>Real-time detection and multi-object tracking</b> on live video for 4 vehicle classes','Traffic density and congestion analytics','Per-class CSV reports'],
-   next:[['v2.0','ANPR: automatic number plate recognition'],['v3.0','Speed estimation and lane violation detection']],
-   tech:['Python','YOLOv8','ByteTrack','OpenCV'], link:'https://github.com/himaanshushrma/ORBITAL'}
+  {name:'ORBITAL', ver:'v1.0 · Cleared', tag:'Real-time traffic intelligence system', icon:ICON.car,
+   desc:'Watches a road through a camera and turns the traffic into numbers: every vehicle is detected, tracked, counted and clocked for speed in real time.',
+   loot:['<b>Detection + multi-object tracking</b> of 4 vehicle classes with YOLO11 and ByteTrack at <b>32 FPS on an RTX 3050</b>','<b>Speed estimation</b> in km/h via a 4-point homography (bird\'s-eye view), plus per-lane assignment and counts','Lane density and LOW / MEDIUM / HIGH congestion on a Streamlit dashboard, with an auto-generated PDF report and CSV log'],
+   next:[['v2.0','ANPR: automatic number plate recognition'],['v3.0','Lane violation detection']],
+   tech:['Python','YOLO11','ByteTrack','OpenCV','Streamlit'], link:'https://github.com/himaanshushrma/ORBITAL'}
 ];
 document.getElementById('quest-list').innerHTML = QUESTS.map(q => `
   <article class="win quest${q.feat ? ' feat' : ''}">
@@ -327,12 +328,12 @@ document.getElementById('quest-list').innerHTML = QUESTS.map(q => `
     <a class="btn" href="${q.link}">View on GitHub ▶</a>
   </article>`).join('');
 
-const SKILLS = [['AI','Claude API','Tool calling, agent loops'],['AG','AI agents','LLM mission agents, prompt design'],['API','HTTP command APIs','Agent ↔ simulator control'],['RT','RRT* & VFH','Path planning, obstacle avoidance'],['SW','Swarm control','Formations, PD, Pure Pursuit'],['YO','YOLOv8 · YOLO11','Detection & segmentation'],['BT','ByteTrack','Multi-object tracking'],['CV','OpenCV','Computer vision'],['SD','Synthetic data','Auto-labelled datasets, ONNX'],['R2','ROS 2','rclpy, RViz'],['U','Unity 6','HDRP simulation'],['Py','Python','Language'],['C#','C#','Language'],['ST','Streamlit','ML web apps'],['Git','Git & GitHub','Version control'],['∑','Mathematics','Linear algebra, 3D kinematics']];
+const SKILLS = [['AI','Claude API','Tool calling, agent loops'],['AG','AI agents','LLM mission agents, prompt design'],['API','HTTP command APIs','Agent ↔ simulator control'],['RT','RRT* & VFH','Path planning, obstacle avoidance'],['SW','Swarm control','Formations, PD, Pure Pursuit'],['YO','YOLOv8 · YOLO11','Detection & segmentation'],['BT','ByteTrack','Multi-object tracking'],['CV','OpenCV','Homography, computer vision'],['SD','Synthetic data','Auto-labelled datasets, ONNX'],['R2','ROS 2','rclpy, RViz'],['U','Unity 6','HDRP simulation'],['Py','Python','Language'],['C#','C#','Language'],['ST','Streamlit','ML web apps'],['Git','Git & GitHub','Version control'],['∑','Mathematics','Linear algebra, 3D kinematics']];
 document.getElementById('inv').innerHTML = SKILLS.map(s => `<div class="win slot"><i>${s[0]}</i><div><b>${s[1]}</b><small>${s[2]}</small></div></div>`).join('');
 
 const NODES = [
   {w:'World 1', t:'B.Tech CSE', p:'UIET, MDU Rohtak', y:'2022–26', s:'Clear ★', c:''},
-  {w:'Side quest', t:'Python faculty', p:'Taught Python', y:'', s:'Clear ★', c:''},
+  {w:'Side quest', t:'Python faculty', p:'Samyak Computers', y:'2025', s:'Clear ★', c:''},
   {w:'World 2', t:'M.Tech CSE', p:'J.C. Bose UST, Faridabad', y:'2026–28', s:'Now playing', c:'now'},
   {w:'World 3', t:'???', p:'Next stage loading', y:'', s:'Locked', c:'lock'}
 ];
@@ -340,7 +341,7 @@ document.getElementById('nodes').innerHTML = NODES.map((n, i) => `
   <div class="node ${n.c}"><small>${n.w}</small><div class="dot">${n.c === 'lock' ? '?' : i + 1}</div>
   <b>${n.t}</b><span>${n.p}${n.y ? ' · ' + n.y : ''}</span><em>${n.s}</em></div>`).join('');
 
-const ACH = [['NCC B & C Certificates','Alpha Grade A'],['Python faculty','Taught Python to students'],['B.Tech CSE cleared','UIET, MDU Rohtak, 2026'],['AI agent shipped','OSPREY mission agent on the Claude API, 12 tools'],['3 quests shipped','OSPREY, AI Crack Inspector, ORBITAL']];
+const ACH = [['NCC B & C Certificates','Alpha Grade A'],['Python faculty','Samyak Computers, Aug–Sep 2025'],['Basic Leadership Camp','Malout, 2025'],['Certificate of Appreciation','From the Director, English Club'],['B.Tech CSE cleared','UIET, MDU Rohtak, 2026'],['AI agent shipped','OSPREY mission agent on the Claude API, 12 tools'],['3 quests shipped','OSPREY, AI Crack Inspector, ORBITAL']];
 document.getElementById('ach').innerHTML = ACH.map(a => `<div class="win">${ICON.trophy}<div><b>${a[0]}</b><span>${a[1]}</span></div></div>`).join('');
 
 const DIMS = {cadet:[720,960], shooter:[720,896], swimmer:[720,962], chess:[900,675], expo:[720,960], musician:[720,1279], explorer:[900,676], planter:[720,960], aviator:[720,960]};
