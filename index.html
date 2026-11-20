@@ -40,6 +40,7 @@ img.px{image-rendering:pixelated}
 @keyframes blink{50%{opacity:0}}
 .play{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font:700 16px 'Rubik',sans-serif;color:var(--shadow);background:var(--cyan);padding:10px 16px;min-height:44px;box-shadow:4px 4px 0 #2f9a94}
 .play:active{transform:translate(3px,3px);box-shadow:1px 1px 0 #2f9a94}
+.play.cv{background:var(--gold);box-shadow:4px 4px 0 #a8862a}.play.cv:active{box-shadow:1px 1px 0 #a8862a}
 .play:focus-visible,.snd:focus-visible,.cheat:focus-visible,.start:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .status{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;background:var(--shadow);border-block:3px solid var(--edge)}
 .status div{padding:12px max(2vw,16px);background:var(--bg2);color:var(--muted);font-size:16px}
@@ -62,6 +63,7 @@ dl.stats{display:grid;grid-template-columns:minmax(0,7em) minmax(0,1fr);gap:10px
 dl.stats dt{font:700 16px/1.75 'Silkscreen',monospace;color:var(--gold)}
 dl.stats dd{margin:0}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:36px}
+#quest-list{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
 .quest{display:flex;flex-direction:column}
 .qhead{display:flex;gap:16px;align-items:center;margin-bottom:12px}
 .icon{flex:none;width:84px;height:84px;background:#f3dcaa;border:3px solid var(--shadow);display:grid;place-items:center}
@@ -71,6 +73,8 @@ dl.stats dd{margin:0}
 .qhead p{margin:6px 0 0;color:var(--muted);font-weight:500}
 .quest ul{margin:0;padding:0;list-style:none}
 .quest li{padding-left:22px;position:relative;margin:4px 0}
+.quest.feat{grid-column:1/-1}.quest.feat ul:not(.next){columns:2;column-gap:32px}.quest.feat ul:not(.next) li{break-inside:avoid}
+@media(max-width:760px){.quest.feat ul:not(.next){columns:1}}
 .quest li::before{content:'';position:absolute;left:4px;top:.6em;width:8px;height:8px;background:var(--gold)}
 .quest .next li::before{background:none;border:2px solid var(--cyan)}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
@@ -148,6 +152,7 @@ footer{padding:30px 16px 44px;text-align:center;color:var(--muted);font-size:16p
 @media(max-width:760px){.player{grid-template-columns:minmax(0,1fr)}.portrait{max-width:340px}.map{grid-template-columns:repeat(2,minmax(0,1fr))}.map::before{display:none}}
 @media(max-width:700px){.arc-stage{aspect-ratio:4/3}.arc-msg{padding-bottom:64px}.arc-hud{font-size:13px}.fire{width:60px;height:44px;font-size:12px}}
 @media(max-width:600px){.hud{position:relative}.status{grid-template-columns:minmax(0,1fr)}.status div{display:flex;justify-content:space-between;gap:10px;align-items:center}.hud nav{margin-inline-start:0;width:100%;order:2}.snd{order:1;margin-inline-start:auto}.vol{order:1}.vol input{width:90px}dl.stats{grid-template-columns:minmax(0,1fr)}dl.stats dd{margin-bottom:8px}.hero{min-height:540px}.title{padding:10px 12px 10px;left:8px;right:8px;top:auto;bottom:8px}.title h1{font-size:24px}.title p{font-size:14px;margin-top:6px}.ctas{margin-top:6px}}
+@media(max-width:600px){.inv{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}.slot{padding:10px;gap:8px;flex-direction:column;align-items:flex-start}.slot small{font-size:12px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important;transition:none!important}.gate-btn{opacity:1}.loader i{width:100%}}
 </style>
 </head>
@@ -165,8 +170,8 @@ footer{padding:30px 16px 44px;text-align:center;color:var(--muted);font-size:16p
   <canvas id="scene" aria-hidden="true"></canvas>
   <div class="title">
     <h1>HIMANSHU SHARMA</h1>
-    <p>Computer vision &amp; simulation developer · M.Tech CSE · Faridabad</p>
-    <div class="ctas"><button class="start" id="start" type="button">▶ PRESS START</button><a class="play" id="play" href="#arcade">◆ Ride with Himanshu</a></div>
+    <p>Autonomous UAV swarms · AI agents · Computer vision · M.Tech CSE · Faridabad</p>
+    <div class="ctas"><button class="start" id="start" type="button">▶ PRESS START</button><a class="play" id="play" href="#arcade">◆ Ride with Himanshu</a><a class="play cv" href="resume/Himanshu_Sharma_Resume.pdf" target="_blank" rel="noopener">⬇ Resume</a></div>
   </div>
 </section>
 <div class="status" role="status">
@@ -182,9 +187,10 @@ footer{padding:30px 16px 44px;text-align:center;color:var(--muted);font-size:16p
     <div class="player">
       <figure class="win portrait" style="margin:0"><img src="photos/portrait.jpg" width="640" height="800" alt="Portrait of Himanshu Sharma smiling, in a black beanie and green striped jersey"><span>HIMANSHU</span></figure>
       <div>
-        <p class="bio">I build software that sees and flies: real-time vehicle tracking with YOLOv8 and ByteTrack, and autonomous drone swarms simulated in Unity. I'm now levelling up through an M.Tech in Computer Science, after a B.Tech from UIET, MDU Rohtak, and I've taught Python as a faculty member.</p>
+        <p class="bio">I build autonomous drone swarms end to end: an <b>LLM mission agent on the Claude API</b> that turns plain-English orders into missions, RRT* path planning, shared mapping, battery-aware planning and <b>YOLOv8 vision</b> trained on synthetic data. I also ship computer vision tools for traffic and infrastructure. Now on an M.Tech in Computer Science, after a B.Tech from UIET, MDU Rohtak, and I've taught Python as a faculty member. Looking for a <b>UAV, robotics or AI-agents internship</b> to take this work from simulation to real platforms.</p>
+        <div class="ctas" style="margin:0 0 14px"><a class="btn" href="resume/Himanshu_Sharma_Resume.pdf" target="_blank" rel="noopener">⬇ Download resume (PDF)</a></div>
         <dl class="stats">
-          <dt>Class</dt><dd>Computer vision &amp; simulation developer</dd>
+          <dt>Class</dt><dd>Autonomous UAV swarms · AI agents · Computer vision</dd>
           <dt>Guild</dt><dd>M.Tech CSE, J.C. Bose University of Science &amp; Technology (2026–28)</dd>
           <dt>Origin</dt><dd>B.Tech CSE, UIET, MDU Rohtak (2022–26)</dd>
           <dt>Base</dt><dd>Faridabad, India</dd>
@@ -256,6 +262,7 @@ footer{padding:30px 16px 44px;text-align:center;color:var(--muted);font-size:16p
       <a class="btn ghost" href="https://www.linkedin.com/in/himaanshushrma/">LinkedIn ▶</a>
       <a class="btn ghost" href="https://github.com/himaanshushrma">GitHub ▶</a>
       <a class="btn ghost" href="https://www.instagram.com/gypsyflanker/">Instagram ▶</a>
+      <a class="btn ghost" href="resume/Himanshu_Sharma_Resume.pdf" target="_blank" rel="noopener">⬇ Resume</a>
     </div>
     <span class="mail">himaanshushrma@gmail.com · linkedin.com/in/himaanshushrma · github.com/himaanshushrma · instagram.com/gypsyflanker</span>
     <span class="toast" id="toast" aria-live="polite"></span>
@@ -286,23 +293,31 @@ document.getElementById('hearts').innerHTML = ICON.heart.repeat(3);
 
 /* ---------- content ---------- */
 const QUESTS = [
-  {name:'ORBITAL', ver:'v1.0 · Cleared', tag:'Vehicle & traffic monitoring system', icon:ICON.car,
+  {name:'OSPREY', ver:'v3.0 · Featured', isNew:true, feat:true, tag:'AI-commanded search-and-rescue drone swarm', icon:ICON.drone,
+   desc:'An 8-drone search-and-rescue swarm simulator in Unity 6, grown from one hand-flown drone into a swarm you command in plain English through an <b>AI agent</b>.',
+   loot:['<b>LLM mission agent:</b> Python agent on the <b>Claude API</b> with <b>12 tools</b>; turns plain-English orders into swarm missions through a local HTTP command API, then checks state and corrects itself',
+     '<b>Planning:</b> RRT* with rewiring on a shared 100×100 occupancy grid; a 347 m route around 58 m towers in 0.9 s',
+     '<b>Obstacle avoidance:</b> VFH-style 24-direction search; a dense downtown route went from stalling to done in 38 s',
+     '<b>Swarm autonomy:</b> heartbeats over a lossy radio spot a failed drone in 1.0 s and the formation re-forms mid-mission',
+     '<b>Parallel search:</b> one strip per drone covers 100% of a 130×220 m forest in 67 s vs 115 s in formation (−42%)',
+     '<b>Battery-aware planning:</b> pre-flight energy checks and smart return-home; turned back at 22%, landed with 12%',
+     '<b>Computer vision:</b> synthetic data generator for auto-labelled YOLO datasets, a YOLOv8 training pipeline and a GPU inference server that places survivors',
+     '<b>Robotics:</b> ROS 2 bridge publishing pose, swarm, map, path, survivors and battery; RViz goal control'],
+   next:[['Next','From simulation to real drones']],
+   tech:['Claude API','AI agents','Python','C#','Unity 6','YOLOv8','ROS 2'], link:'https://github.com/himaanshushrma/OSPREY'},
+  {name:'AI CRACK INSPECTOR', ver:'New quest', isNew:true, tag:'Infrastructure crack segmentation', icon:ICON.crack,
+   desc:'Upload a photo of a road, wall or runway and the AI outlines every crack, counts them and scores its confidence.',
+   loot:['<b>Fine-tuned YOLO11 segmentation</b> on ~4,000 labelled crack images','<b>0.78 mAP@50</b> and <b>0.80 precision</b> on the validation set','<b>Streamlit web app</b> serving the model: crack outlines, count and confidence'],
+   next:[],
+   tech:['Python','YOLO11-seg','OpenCV','Streamlit'], link:'https://github.com/himaanshushrma/CRACK_DETECTION'},
+  {name:'ORBITAL', ver:'v1.0 · Cleared', tag:'Vision-based detection & tracking pipeline', icon:ICON.car,
    desc:'Watches a road through a camera and turns the traffic into numbers: every vehicle is detected, tracked across frames and counted in real time.',
-   loot:['Real-time vehicle detection, tracking and counting','Traffic density and congestion analytics','CSV reports and vehicle-class statistics'],
+   loot:['<b>Real-time detection and multi-object tracking</b> on live video for 4 vehicle classes','Traffic density and congestion analytics','Per-class CSV reports'],
    next:[['v2.0','ANPR: automatic number plate recognition'],['v3.0','Speed estimation and lane violation detection']],
-   tech:['Python','YOLOv8','ByteTrack','OpenCV'], link:'https://github.com/himaanshushrma'},
-  {name:'OSPREY', ver:'v1.0 · Cleared', tag:'Autonomous drone swarm simulator', icon:ICON.drone,
-   desc:'A Unity 6 simulator where a swarm of drones flies missions together, holding formation while navigating between waypoints.',
-   loot:['Matrix-based formation controller using homogeneous transformations','Pure Pursuit waypoint navigation','Modular DroneController, SwarmManager, MissionManager and FormationManager','Real-time telemetry HUD and multi-camera system'],
-   next:[['v2.0','Obstacle avoidance and SLAM'],['v3.0','Distributed swarm communication for 100+ UAVs']],
-   tech:['Unity 6','C#'], link:'https://github.com/himaanshushrma'},
-  {name:'CRACK DETECTION', ver:'New quest', isNew:true, tag:'AI crack inspector', icon:ICON.crack,
-   desc:'An AI inspector that looks at surfaces and finds the cracks in them, my newest computer vision project.',
-   loot:['Computer vision for spotting cracks in surface images'], next:[],
-   tech:['Computer vision','AI'], link:'https://github.com/himaanshushrma/CRACK_DETECTION'}
+   tech:['Python','YOLOv8','ByteTrack','OpenCV'], link:'https://github.com/himaanshushrma/ORBITAL'}
 ];
 document.getElementById('quest-list').innerHTML = QUESTS.map(q => `
-  <article class="win quest">
+  <article class="win quest${q.feat ? ' feat' : ''}">
     <div class="qhead"><div class="icon">${q.icon}</div>
       <div><span class="chip${q.isNew ? ' new' : ''}">${q.ver}</span><h3>${q.name}</h3><p>${q.tag}</p></div></div>
     <p>${q.desc}</p>
@@ -312,7 +327,7 @@ document.getElementById('quest-list').innerHTML = QUESTS.map(q => `
     <a class="btn" href="${q.link}">View on GitHub ▶</a>
   </article>`).join('');
 
-const SKILLS = [['Py','Python','Language'],['C#','C#','Language'],['U','Unity','Game engine'],['CV','OpenCV','Computer vision'],['YO','YOLOv8','Object detection'],['BT','ByteTrack','Multi-object tracking'],['Git','Git','Version control'],['GH','GitHub','Collaboration']];
+const SKILLS = [['AI','Claude API','Tool calling, agent loops'],['AG','AI agents','LLM mission agents, prompt design'],['API','HTTP command APIs','Agent ↔ simulator control'],['RT','RRT* & VFH','Path planning, obstacle avoidance'],['SW','Swarm control','Formations, PD, Pure Pursuit'],['YO','YOLOv8 · YOLO11','Detection & segmentation'],['BT','ByteTrack','Multi-object tracking'],['CV','OpenCV','Computer vision'],['SD','Synthetic data','Auto-labelled datasets, ONNX'],['R2','ROS 2','rclpy, RViz'],['U','Unity 6','HDRP simulation'],['Py','Python','Language'],['C#','C#','Language'],['ST','Streamlit','ML web apps'],['Git','Git & GitHub','Version control'],['∑','Mathematics','Linear algebra, 3D kinematics']];
 document.getElementById('inv').innerHTML = SKILLS.map(s => `<div class="win slot"><i>${s[0]}</i><div><b>${s[1]}</b><small>${s[2]}</small></div></div>`).join('');
 
 const NODES = [
@@ -325,7 +340,7 @@ document.getElementById('nodes').innerHTML = NODES.map((n, i) => `
   <div class="node ${n.c}"><small>${n.w}</small><div class="dot">${n.c === 'lock' ? '?' : i + 1}</div>
   <b>${n.t}</b><span>${n.p}${n.y ? ' · ' + n.y : ''}</span><em>${n.s}</em></div>`).join('');
 
-const ACH = [['NCC B & C Certificates','Alpha Grade A'],['Python faculty','Taught Python to students'],['B.Tech CSE cleared','UIET, MDU Rohtak, 2026'],['3 quests shipped','ORBITAL, OSPREY, Crack Detection']];
+const ACH = [['NCC B & C Certificates','Alpha Grade A'],['Python faculty','Taught Python to students'],['B.Tech CSE cleared','UIET, MDU Rohtak, 2026'],['AI agent shipped','OSPREY mission agent on the Claude API, 12 tools'],['3 quests shipped','OSPREY, AI Crack Inspector, ORBITAL']];
 document.getElementById('ach').innerHTML = ACH.map(a => `<div class="win">${ICON.trophy}<div><b>${a[0]}</b><span>${a[1]}</span></div></div>`).join('');
 
 const DIMS = {cadet:[720,960], shooter:[720,896], swimmer:[720,962], chess:[900,675], expo:[720,960], musician:[720,1279], explorer:[900,676], planter:[720,960], aviator:[720,960]};
